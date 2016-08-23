@@ -1,3 +1,6 @@
+
+import javax.swing.JOptionPane;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -34,6 +37,7 @@ public class Principal extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         txtCuotas = new javax.swing.JTextField();
         cmdCalcular = new javax.swing.JButton();
+        cmdBorrar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -43,14 +47,24 @@ public class Principal extends javax.swing.JFrame {
 
         jLabel1.setText("Metros Cuadrados a comprar");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, 190, 24));
+
+        txtMetros.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtMetrosKeyTyped(evt);
+            }
+        });
         getContentPane().add(txtMetros, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 70, 130, -1));
 
         jLabel2.setText("Cuota Inicial");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 140, 20));
+
+        txtCuotaIni.setEditable(false);
         getContentPane().add(txtCuotaIni, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 120, 130, -1));
 
         jLabel3.setText("Resto de 12 Cuotas a pagar");
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 190, 20));
+
+        txtCuotas.setEditable(false);
         getContentPane().add(txtCuotas, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 170, 130, -1));
 
         cmdCalcular.setText("Cotizar");
@@ -61,6 +75,14 @@ public class Principal extends javax.swing.JFrame {
         });
         getContentPane().add(cmdCalcular, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, 80, -1));
 
+        cmdBorrar.setText("Borrar");
+        cmdBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdBorrarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(cmdBorrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 230, -1, -1));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -68,9 +90,15 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
         String res, res1;
         double metros, multi, ini, resta, cuotas;
+        
+        if (txtMetros.getText().trim().isEmpty()) {
+             JOptionPane.showMessageDialog(this, "Digite por favor el número de metros cuadrados", "Error", JOptionPane.ERROR_MESSAGE);
+             txtMetros.requestFocusInWindow();
+
+        } else {
 
         metros = Double.parseDouble(txtMetros.getText());
-
+               
         multi = metros * 80000;
         ini = multi * 0.35;
         resta = multi - ini;
@@ -81,8 +109,28 @@ public class Principal extends javax.swing.JFrame {
         txtCuotaIni.setText(res);
         txtCuotas.setText(res1);
 
-
+        }
     }//GEN-LAST:event_cmdCalcularActionPerformed
+
+    private void cmdBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdBorrarActionPerformed
+        // TODO add your handling code here:
+        
+        txtMetros.setText("");
+        txtCuotaIni.setText("");
+        txtCuotas.setText("");
+        txtMetros.requestFocusInWindow();
+        
+    }//GEN-LAST:event_cmdBorrarActionPerformed
+
+    private void txtMetrosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMetrosKeyTyped
+        // TODO add your handling code here:
+        
+        char c = evt.getKeyChar();
+         if (!Character.isDigit(c)) {
+              getToolkit().beep();
+              evt.consume();
+         }
+    }//GEN-LAST:event_txtMetrosKeyTyped
 
     /**
      * @param args the command line arguments
@@ -120,6 +168,7 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton cmdBorrar;
     private javax.swing.JButton cmdCalcular;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
